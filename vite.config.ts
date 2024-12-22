@@ -5,6 +5,7 @@ import svgLoader from 'vite-svg-loader';
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/keyboard',
   plugins: [vue(), svgLoader()],
   resolve: {
     alias: {
