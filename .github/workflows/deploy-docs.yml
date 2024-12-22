@@ -1,0 +1,43 @@
+name: Deploy to GitHub Pages
+
+# 触发事件：push 到主分支时运行构建和部署
+on:
+  push:
+    branches:
+      - main  # 或者你使用的其他分支
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest  # 使用最新的 Ubuntu 环境
+
+    steps:
+      # 步骤 1：检查出代码
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 步骤 2：设置 Node.js 环境
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # 使用的 Node.js 版本
+
+      # 步骤 3：安装 pnpm
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      # 步骤 4：安装项目依赖
+      - name: Install dependencies
+        run: pnpm install
+
+      # 步骤 5：执行构建
+      - name: Build the project
+        run: pnpm build
+
+      # 步骤 6：部署到 gh-pages 分支
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages  # 部署到 gh-pages 分支
+          folder: dist      # 构建输出目录
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 自动使用 GitHub Token
