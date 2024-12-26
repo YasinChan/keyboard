@@ -90,7 +90,7 @@ if (device === 'mac') {
             Mac
           </div>
           <div class="y-keyboard__setting-item" @click="state.keyboardModal = true">
-            切换键盘配列
+            {{ $t('switch_keyboard_layout') }}
           </div>
         </div>
       </Transition>
@@ -109,7 +109,7 @@ if (device === 'mac') {
     </div>
     <key-wrap
         v-if="state.currentKeyBoard === '68'"
-        title="68 配列键盘"
+        :title="$t('68_layout')"
         className="y-key-wrap__68"
         v-slot="{ keysPressed }"
     >
@@ -130,7 +130,7 @@ if (device === 'mac') {
     </key-wrap>
     <key-wrap
         v-if="state.currentKeyBoard === 'standard'"
-        title="标准配列键盘"
+        :title="$t('standard_layout')"
         className="y-key-wrap__standard"
         v-slot="{ keysPressed }"
     >
@@ -151,7 +151,7 @@ if (device === 'mac') {
     </key-wrap>
     <key-wrap
         v-if="state.currentKeyBoard === 'mbp'"
-        title="MBP 配列键盘"
+        :title="$t('mbp_layout')"
         className="y-key-wrap__mbp"
         v-slot="{ keysPressed }"
     >
@@ -180,13 +180,13 @@ if (device === 'mac') {
       @confirm="state.keyboardModal = false"
   >
     <template #header>
-    <h3>选择键盘</h3>
+    <h3>{{ $t('select_keyboard') }}</h3>
     </template>
     <template #body>
     <div class="y-show-select__container gray-08">
-      <ListItem @click="changeKeyboard('standard')">标准配列键盘</ListItem>
-      <ListItem @click="changeKeyboard('68')">68 配列键盘</ListItem>
-      <ListItem @click="changeKeyboard('mbp')">MBP 配列键盘</ListItem>
+      <ListItem @click="changeKeyboard('standard')">{{ $t('standard_layout') }}</ListItem>
+      <ListItem @click="changeKeyboard('68')">{{ $t('68_layout') }}</ListItem>
+      <ListItem @click="changeKeyboard('mbp')">{{ $t('mbp_layout') }}</ListItem>
     </div>
     </template>
   </YModal>

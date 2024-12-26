@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
 // components
 import TypingKeyboard from '@/view/TypingKeyboard.vue';
 
@@ -7,15 +9,32 @@ import { useConfigStore } from '@/store/config';
 import { storeToRefs } from 'pinia';
 
 // svg
+import IcoTranslate from '@/assets/svg/translate.svg';
 import IcoCapsLock from '@/assets/svg/caps-lock.svg';
 import IcoGithub from '@/assets/svg/github.svg';
 import IcoIntroduce from '@/assets/svg/introduce.svg';
 import IcoDocument from '@/assets/svg/document.svg';
 
+// common
+import YStorage from './common/YStorage';
+
 const useConfig = useConfigStore();
 
 const { onlyShowMain, capsLockOn } = storeToRefs(useConfig);
 
+const { locale } = useI18n();
+
+function changeLocale() {
+  const l = locale.value;
+  if (l === 'zh') {
+    locale.value = 'en';
+  } else {
+    locale.value = 'zh';
+  }
+  YStorage.set('Y_STORAGE', {
+    locale: locale.value
+  });
+}
 </script>
 
 <template>
@@ -35,6 +54,13 @@ const { onlyShowMain, capsLockOn } = storeToRefs(useConfig);
       <div class="y-info" :class="[onlyShowMain ? 'y-info__disabled' : '']">
         <a href="/" class="y-info__title main-color">Typing</a>
       </div>
+      <Transition name="menu">
+        <div class="y-menu" v-show="!onlyShowMain">
+          <div class="y-menu__item" @click="changeLocale">
+            <IcoTranslate></IcoTranslate>
+          </div>
+        </div>
+      </Transition>
     </header>
 
     <TypingKeyboard></TypingKeyboard>
@@ -47,7 +73,7 @@ const { onlyShowMain, capsLockOn } = storeToRefs(useConfig);
             target="_blank"
         >
           <IcoGithub></IcoGithub>
-          <span>源码</span>
+          <span>{{ $t('source_code') }}</span>
         </a>
         <a
             class="flex-center--y y-app__footer"
@@ -55,7 +81,7 @@ const { onlyShowMain, capsLockOn } = storeToRefs(useConfig);
             target="_blank"
         >
           <IcoDocument></IcoDocument>
-          <span>技术</span>
+          <span>{{ $t('technology') }}</span>
         </a>
         <a
             class="flex-center--y y-app__footer"
@@ -63,7 +89,7 @@ const { onlyShowMain, capsLockOn } = storeToRefs(useConfig);
             target="_blank"
         >
           <IcoIntroduce></IcoIntroduce>
-          <span>介绍</span>
+          <span>{{ $t('introduction') }}</span>
         </a>
       </footer>
     </Transition>
